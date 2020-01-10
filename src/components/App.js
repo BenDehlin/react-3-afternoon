@@ -50,6 +50,7 @@ class App extends Component {
   }
 
   handleSearch(text){
+    text = encodeURIComponent(text)
     axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${text}`).then(
       results => {
         this.setState({posts: results.data})
