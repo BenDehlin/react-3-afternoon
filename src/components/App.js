@@ -18,6 +18,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind( this );
     this.deletePost = this.deletePost.bind( this );
     this.createPost = this.createPost.bind( this );
+    this.handleSearch = this.handleSearch.bind( this )
   }
   
   componentDidMount() {
@@ -27,7 +28,6 @@ class App extends Component {
   }
 
   updatePost(id, text) {
-    console.log(id, text)
     axios.put(`https://practiceapi.devmountain.com/api/posts?id=${id}`, {text: text}).then(results => {
       this.setState({posts: results.data})
     }).catch(err => console.log(err))
@@ -49,12 +49,20 @@ class App extends Component {
     ).catch(err => console.log(err))
   }
 
+  handleSearch(text){
+    axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${text}`).then(
+      results => {
+        this.setState({posts: results.data})
+      }
+    )
+  }
+
   render() {
     const { posts } = this.state;
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header search={this.handleSearch}/>
 
         <section className="App__content">
 
